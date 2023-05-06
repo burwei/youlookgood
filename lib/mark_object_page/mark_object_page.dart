@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:youlookgood/result_page/result_page.dart';
 
 class MarkObjectPage extends StatelessWidget {
   const MarkObjectPage({super.key, required this.imagePath});
@@ -24,6 +25,35 @@ class MarkObjectPage extends StatelessWidget {
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Image.file(File(imagePath)),
+            ),
+            // submit button
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  elevation: 8,
+                  shadowColor: Colors.grey.shade700,
+                  fixedSize: const Size(150, 60),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: const BorderSide(color: Colors.white),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ResultPage(imagePath: imagePath)),
+                  );
+                },
+                child: const Text(
+                  'submit',
+                  style: TextStyle(
+                      fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
+                ),
+              ),
             ),
             // instruction text
             Container(

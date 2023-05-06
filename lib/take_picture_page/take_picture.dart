@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youlookgood/mark_object_page/mark_object_page.dart';
 
+// This page is mostly copy from offical tutorial:
+// https://docs.flutter.dev/cookbook/plugins/picture-using-camera#complete-example
 class TakePicturePage extends StatefulWidget {
   const TakePicturePage({
     super.key,
@@ -14,10 +14,10 @@ class TakePicturePage extends StatefulWidget {
   final CameraDescription camera;
 
   @override
-  TakePictureScreenState createState() => TakePictureScreenState();
+  TakePicturePageState createState() => TakePicturePageState();
 }
 
-class TakePictureScreenState extends State<TakePicturePage> {
+class TakePicturePageState extends State<TakePicturePage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
