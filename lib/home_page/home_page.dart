@@ -1,9 +1,12 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-import '../take_pic_page/take_pic.dart';
+import '../take_picture_page/take_picture.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.camera});
+
+  final CameraDescription camera;
 
   final mainText = 'Let\'s answer the question:\n\n"How do I look?"';
   final databaseConnText =
@@ -52,7 +55,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TakePicPage()),
+                        builder: (context) => TakePicturePage(camera: camera)),
                   );
                 },
                 child: const Text(
