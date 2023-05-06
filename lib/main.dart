@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.pink.shade300));
+        const SystemUiOverlayStyle(statusBarColor: Colors.pink));
     return MaterialApp(
       title: 'YouLookGood',
       theme: ThemeData(

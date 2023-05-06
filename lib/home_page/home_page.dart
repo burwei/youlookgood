@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   final CameraDescription camera;
 
-  final mainText = 'Let\'s answer the question:\n\n"How do I look?"';
+  final titleText = 'Let\'s answer the question:\n\n"How do I look?"';
   final databaseConnText =
       'Not connected to any database. No internet needed.\nWe know the answer already.\nWe always do.';
 
@@ -23,12 +23,12 @@ class HomePage extends StatelessWidget {
             Container(
               color: Colors.pink,
             ),
-            // main text
+            // title text
             Container(
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Text(
-                mainText,
+                titleText,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
