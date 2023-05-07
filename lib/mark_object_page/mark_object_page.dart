@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:youlookgood/mark_object_page/drawing.dart';
 import 'package:youlookgood/result_page/result_page.dart';
 
 class MarkObjectPage extends StatelessWidget {
@@ -9,6 +10,8 @@ class MarkObjectPage extends StatelessWidget {
   final String imagePath;
   final instructionText =
       'Mark the target object by painting.\nThe place you paint will be brighter later.';
+
+  final StatefulWidget drawingBoard = const DrawingBoard();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,8 @@ class MarkObjectPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Image.file(File(imagePath)),
             ),
+            // drawing board
+            drawingBoard,
             // submit button
             Container(
               alignment: Alignment.bottomCenter,
@@ -45,7 +50,10 @@ class MarkObjectPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ResultPage(imagePath: imagePath)),
+                      builder: (context) => ResultPage(
+                        imagePath: imagePath,
+                      ),
+                    ),
                   );
                 },
                 child: const Text(

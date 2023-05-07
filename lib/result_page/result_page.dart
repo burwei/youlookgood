@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:youlookgood/mark_object_page/drawing.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({super.key, required this.imagePath});

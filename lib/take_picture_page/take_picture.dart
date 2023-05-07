@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youlookgood/mark_object_page/mark_object_page.dart';
 
-// This page is mostly copy from offical tutorial:
+// This page is modify from offical tutorial:
 // https://docs.flutter.dev/cookbook/plugins/picture-using-camera#complete-example
 class TakePicturePage extends StatefulWidget {
   const TakePicturePage({
