@@ -5,13 +5,13 @@ import 'package:youlookgood/mark_object_page/drawing.dart';
 import 'package:youlookgood/result_page/result_page.dart';
 
 class MarkObjectPage extends StatelessWidget {
-  const MarkObjectPage({super.key, required this.imagePath});
+  MarkObjectPage({super.key, required this.imagePath});
 
   final String imagePath;
   final instructionText =
-      'Mark the target object by painting.\nThe place you paint will be brighter later.';
+      'Mark the target object by painting to make it looks brighter.';
 
-  final StatefulWidget drawingBoard = const DrawingBoard();
+  final DrawingBoard drawingBoard = DrawingBoard();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class MarkObjectPage extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => ResultPage(
                         imagePath: imagePath,
+                        drawnPoints: drawingBoard.getResult(),
                       ),
                     ),
                   );

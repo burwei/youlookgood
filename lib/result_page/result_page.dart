@@ -6,18 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:youlookgood/mark_object_page/drawing.dart';
 
 class ResultPage extends StatefulWidget {
-  const ResultPage({super.key, required this.imagePath});
+  const ResultPage(
+      {super.key, required this.imagePath, required this.drawnPoints});
 
   final String imagePath;
+  final List<Offset> drawnPoints;
 
   @override
   ResultPageState createState() => ResultPageState();
 }
 
 class ResultPageState extends State<ResultPage> {
-  var isDone = false;
-  var progress = 0.0;
-  var percentageToBuy = 0;
+  bool isDone = false;
+  double progress = 0.0;
+  int percentageToBuy = 0;
 
   final youLookGoodText = "You look GOOD!";
 
@@ -29,6 +31,7 @@ class ResultPageState extends State<ResultPage> {
     progress = 0;
     var random = Random();
 
+    // start the fake progress loading
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
       if (progress >= 1.0) {
         timer.cancel();
@@ -57,11 +60,20 @@ class ResultPageState extends State<ResultPage> {
             Container(
               color: Colors.pink,
             ),
-            // picture display
+            // display picture
             Container(
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Image.file(File(widget.imagePath)),
+            ),
+            // target object mask
+            CustomPaint(
+              painter: DrawingPen(widget.drawnPoints, [], -1),
+              // picture display
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+              ),
             ),
             // full screen mask and the fake process circle
             if (!isDone)
