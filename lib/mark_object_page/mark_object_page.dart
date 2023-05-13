@@ -42,11 +42,20 @@ class MarkObjectPageState extends State<MarkObjectPage> {
             ),
             // drawing board
             DrawingBoard(callback: getPointsCallback),
+            // bottom bannar
+            Positioned(
+              bottom: 0,
+              child: Container(
+                color: Colors.pink,
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+              ),
+            ),
             // submit button
             if (points.isNotEmpty)
               Container(
                 alignment: Alignment.bottomCenter,
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 70),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,

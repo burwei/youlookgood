@@ -69,10 +69,19 @@ class TakePicturePageState extends State<TakePicturePage> {
                 },
               ),
             ),
+            // bottom bannar
+            Positioned(
+              bottom: 0,
+              child: Container(
+                color: Colors.pink,
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+              ),
+            ),
             // capture button
             Container(
               alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
               child: SizedBox(
                 width: 80,
                 height: 80,

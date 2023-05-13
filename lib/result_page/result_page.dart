@@ -117,21 +117,30 @@ class ResultPageState extends State<ResultPage> {
             if (isDone)
               Container(
                 alignment: Alignment.bottomCenter,
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 150),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 160),
                 child: Text(
                   '$percentageToBuy% of girls say\nyou should buy it!',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 15,
                     fontFamily: 'Ubuntu',
                   ),
                 ),
               ),
+            // bottom bannar
+            Positioned(
+              bottom: 0,
+              child: Container(
+                color: Colors.pink,
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+              ),
+            ),
             // back to home button
             if (isDone)
               Container(
                 alignment: Alignment.bottomCenter,
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 70),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
