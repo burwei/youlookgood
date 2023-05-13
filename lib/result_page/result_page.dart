@@ -3,7 +3,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:youlookgood/mark_object_page/drawing.dart';
+
+import 'mask.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage(
@@ -68,7 +69,7 @@ class ResultPageState extends State<ResultPage> {
             ),
             // target object mask
             CustomPaint(
-              painter: DrawingPen(widget.drawnPoints, [], -1),
+              painter: Mask(widget.drawnPoints),
               // picture display
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // These widgets are modified from samirpokharel's Drawing_board_app.
 // source: https://github.com/samirpokharel/Drawing_board_app.
 // Nice job samirpokharel, thank you!
+// TODO: The drawing board becomes lagging after too much points. Fix it.
 class DrawingBoard extends StatefulWidget {
   DrawingBoard({super.key});
 
@@ -19,7 +20,11 @@ class DrawingBoard extends StatefulWidget {
 class DrawingBoardState extends State<DrawingBoard> {
   final List<Offset> currentDrawingPath = [];
   final List<List<Offset>> historyDrawingPaths = [];
-
+  final Paint markingPaint = Paint()
+    ..isAntiAlias = true
+    ..color = Colors.pink.shade200
+    ..strokeCap = StrokeCap.round
+    ..strokeWidth = 25;
   int cursor = 0;
 
   @override
@@ -36,6 +41,29 @@ class DrawingBoardState extends State<DrawingBoard> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // history paths
+        CustomPaint(
+          painter: DrawingPen([], historyDrawingPaths, markingPaint, cursor),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+        ),
+        // current drawing path
+        CustomPaint(
+          painter: DrawingPen(
+            currentDrawingPath,
+            [],
+            markingPaint,
+            1,
+          ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+        ),
+        // full screen gesture detector
+        // (it grows to fit the parent if no child)
         GestureDetector(
           onPanStart: (details) {
             setState(() {
@@ -49,10 +77,6 @@ class DrawingBoardState extends State<DrawingBoard> {
           },
           onPanEnd: (details) {
             setState(() {
-              // Complete the path.
-              if (currentDrawingPath.length % 2 == 1) {
-                currentDrawingPath.add(currentDrawingPath.last);
-              }
               // Check if we need to clear the obsolete items.
               if (cursor != historyDrawingPaths.length) {
                 int removeItemNum = historyDrawingPaths.length - cursor;
@@ -71,19 +95,33 @@ class DrawingBoardState extends State<DrawingBoard> {
               }
             });
           },
-          child: CustomPaint(
-            painter:
-                DrawingPen(currentDrawingPath, historyDrawingPaths, cursor),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-            ),
-          ),
         ),
+        // edit bar: undo and redo button
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // pen icon
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.pink,
+                border: Border.all(
+                  color: Colors.pink,
+                  width: 3,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  // do nothing at this point
+                },
+                icon: const Icon(
+                  Icons.draw,
+                  color: Colors.white,
+                ),
+                iconSize: 40,
+              ),
+            ),
             // undo button
             Container(
               decoration: BoxDecoration(
@@ -146,56 +184,52 @@ class DrawingBoardState extends State<DrawingBoard> {
 }
 
 class DrawingPen extends CustomPainter {
-  // The current drawing path.
-  final List<Offset> currentDrawingPath;
+  // Single path to draw. One path contains multiple points.
+  List<Offset> pointsToDraw;
+  // Multiple paths to draw.
+  List<List<Offset>> pathsToDraw;
 
-  // A stack to store multiple drawing paths.
-  // A drawing paths contains multiple drawing points.
-  final List<List<Offset>> historyDrawingPaths;
+  // The style of the paint.
+  final Paint paintStyle;
 
-  // Eraser paint.
-  final Paint eraserPaint = Paint()
-    ..isAntiAlias = true
-    ..strokeCap = StrokeCap.round
-    ..color = const Color.fromARGB(50, 255, 255, 255)
-    ..blendMode = BlendMode.clear
-    ..strokeWidth = 25;
-
-  // Background mask paint.
-  final maskPaint = Paint()..color = const Color.fromARGB(100, 0, 0, 0);
-
-  // The index of the current drawing path.
+  // The number of path to draw.
   // It'll be used in the undo/redo feature.
-  int cursor;
+  int pathNum;
 
-  DrawingPen(this.currentDrawingPath, this.historyDrawingPaths, this.cursor);
+  DrawingPen(
+    this.pointsToDraw,
+    this.pathsToDraw,
+    this.paintStyle,
+    this.pathNum,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
-    // save original status
-    canvas.saveLayer(Rect.largest, Paint());
-    // draw background mask
-    canvas.drawPaint(maskPaint);
-    // draw the current path (erase some part of the mask)
-    for (int i = 0; i < currentDrawingPath.length - 1; i++) {
-      canvas.drawLine(
-        currentDrawingPath[i],
-        currentDrawingPath[i + 1],
-        eraserPaint,
-      );
-    }
-    // draw the history path (erase some part of the mask)
-    for (int i = 0; i < cursor; i++) {
-      for (int j = 0; j < historyDrawingPaths[i].length - 1; j++) {
-        canvas.drawLine(
-          historyDrawingPaths[i][j],
-          historyDrawingPaths[i][j + 1],
-          eraserPaint,
-        );
+    // Concat all the points.
+    if (pointsToDraw.isNotEmpty) {
+      if (pointsToDraw.length % 2 == 1) {
+        pointsToDraw.add(pointsToDraw.last);
       }
     }
-    // show the result
-    canvas.restore();
+    if (pathsToDraw.isNotEmpty) {
+      for (int i = 0; i < pathNum; i++) {
+        for (int j = 0; j < pathsToDraw[i].length; j++) {
+          pointsToDraw.add(pathsToDraw[i][j]);
+        }
+        if (pathsToDraw[i].length % 2 == 1) {
+          pointsToDraw.add(pointsToDraw.last);
+        }
+      }
+    }
+
+    // Draw the lines bwtween each points in the same path.
+    for (int i = 0; i < pointsToDraw.length - 1; i += 2) {
+      canvas.drawLine(
+        pointsToDraw[i],
+        pointsToDraw[i + 1],
+        paintStyle,
+      );
+    }
   }
 
   @override

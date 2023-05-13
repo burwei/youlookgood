@@ -9,7 +9,7 @@ class MarkObjectPage extends StatelessWidget {
 
   final String imagePath;
   final instructionText =
-      'Mark the target object by painting to make it looks brighter.';
+      'Mark the target item by painting to make it looks brighter later.';
 
   final DrawingBoard drawingBoard = DrawingBoard();
 
