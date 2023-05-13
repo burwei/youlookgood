@@ -2,15 +2,28 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import '../take_picture_page/take_picture.dart';
+import 'about.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.camera});
 
   final CameraDescription camera;
 
+  @override
+  HomePageState createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
   final titleText = 'Let\'s answer the question:\n\n"How do I look?"';
   final databaseConnText =
       'Not connected to any database. No internet needed.\nWe know the answer already.\nWe always do.';
+  bool _showAboutDialog = false;
+
+  void aboutDiagramBtnCallback() {
+    setState(() {
+      _showAboutDialog = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +68,9 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TakePicturePage(camera: camera)),
+                      builder: (context) =>
+                          TakePicturePage(camera: widget.camera),
+                    ),
                   );
                 },
                 child: const Text(
@@ -65,19 +80,32 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            // database connection text
             Container(
               alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: Text(
-                databaseConnText,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontFamily: 'Ubuntu',
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    _showAboutDialog = true;
+                  });
+                },
+                child: Text(
+                  "about",
+                  style: TextStyle(
+                    fontFamily: "Ubuntu",
+                    fontSize: 15,
+                    color: Colors.pink.shade100,
+                  ),
                 ),
               ),
             ),
+            // about dialog
+            if (_showAboutDialog)
+              Container(
+                alignment: Alignment.center,
+                color: const Color.fromARGB(150, 0, 0, 0),
+                child: MyAboutDialog(btnCallback: aboutDiagramBtnCallback),
+              ),
           ],
         ),
       ),

@@ -4,14 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:youlookgood/mark_object_page/drawing.dart';
 import 'package:youlookgood/result_page/result_page.dart';
 
-class MarkObjectPage extends StatelessWidget {
-  MarkObjectPage({super.key, required this.imagePath});
+class MarkObjectPage extends StatefulWidget {
+  const MarkObjectPage({super.key, required this.imagePath});
 
   final String imagePath;
+
+  @override
+  MarkObjectPageState createState() => MarkObjectPageState();
+}
+
+class MarkObjectPageState extends State<MarkObjectPage> {
   final instructionText =
       'Mark the target item by painting to make it looks brighter later.';
+  List<Offset?> points = [];
 
-  final DrawingBoard drawingBoard = DrawingBoard();
+  void getPointsCallback(List<Offset?> points) {
+    setState(() {
+      this.points = points;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,43 +38,44 @@ class MarkObjectPage extends StatelessWidget {
             Container(
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Image.file(File(imagePath)),
+              child: Image.file(File(widget.imagePath)),
             ),
             // drawing board
-            drawingBoard,
+            DrawingBoard(callback: getPointsCallback),
             // submit button
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  elevation: 8,
-                  shadowColor: Colors.grey.shade700,
-                  fixedSize: const Size(150, 60),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: Colors.white),
+            if (points.isNotEmpty)
+              Container(
+                alignment: Alignment.bottomCenter,
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 8,
+                    shadowColor: Colors.grey.shade700,
+                    fixedSize: const Size(150, 60),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: const BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ResultPage(
+                          imagePath: widget.imagePath,
+                          drawnPoints: points,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'submit',
+                    style: TextStyle(
+                        fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ResultPage(
-                        imagePath: imagePath,
-                        drawnPoints: drawingBoard.getResult(),
-                      ),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'submit',
-                  style: TextStyle(
-                      fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
-                ),
               ),
-            ),
             // instruction text
             Container(
               alignment: Alignment.bottomCenter,

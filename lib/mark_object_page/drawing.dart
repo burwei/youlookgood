@@ -4,13 +4,9 @@ import 'package:flutter/material.dart';
 // source: https://github.com/samirpokharel/Drawing_board_app.
 // Nice job samirpokharel, thank you!
 class DrawingBoard extends StatefulWidget {
-  DrawingBoard({super.key});
+  const DrawingBoard({super.key, required this.callback});
 
-  final List<Offset?> result = [];
-
-  List<Offset?> getResult() {
-    return result;
-  }
+  final Function(List<Offset?>) callback;
 
   @override
   DrawingBoardState createState() => DrawingBoardState();
@@ -27,17 +23,6 @@ class DrawingBoardState extends State<DrawingBoard> {
     ..strokeWidth = 25;
   int cursor = 0; // which path is the user drawing
   int batchCounter = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    widget.result.clear();
-    currentPoints.clear();
-    _historyStack.clear();
-    cursor = 0;
-    batchCounter = 0;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +94,7 @@ class DrawingBoardState extends State<DrawingBoard> {
               currentPoints.clear();
               cursor++;
               // Update widget result.
-              widget.result.clear();
-              widget.result.addAll(_historyStack.points);
+              widget.callback(_historyStack.points);
             });
           },
         ),
@@ -158,6 +142,8 @@ class DrawingBoardState extends State<DrawingBoard> {
                     if (cursor < 0) {
                       cursor = 0;
                     }
+
+                    widget.callback(_historyStack.getCurrentResult(cursor));
                   });
                 },
                 icon: const Icon(
@@ -185,6 +171,8 @@ class DrawingBoardState extends State<DrawingBoard> {
                     if (cursor > _historyStack.size) {
                       cursor = _historyStack.size;
                     }
+
+                    widget.callback(_historyStack.getCurrentResult(cursor));
                   });
                 },
                 icon: const Icon(
@@ -226,6 +214,20 @@ class _HistoryPointStack {
     );
     idxStartOfPath.removeRange(target, idxStartOfPath.length);
     size = target;
+  }
+
+  List<Offset?> getCurrentResult(int cursor) {
+    var result = List<Offset?>.from(points);
+    if (cursor == idxStartOfPath.length) {
+      cursor--;
+    }
+
+    result.removeRange(
+      idxStartOfPath[cursor],
+      points.length,
+    );
+
+    return result;
   }
 }
 
