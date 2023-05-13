@@ -42,6 +42,7 @@ class DrawingBoardState extends State<DrawingBoard> {
     return Stack(
       children: [
         // history paths
+        // We don't want to repaint history paths everytime.
         // p.s. Without RepaintBoundary the hisptory paths will repaint everytime
         // even when we alrady set the shouldRepaint to false.
         RepaintBoundary(
@@ -53,7 +54,7 @@ class DrawingBoardState extends State<DrawingBoard> {
               cursor,
             ),
             isComplex: true,
-            willChange: true,
+            willChange: false,
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
