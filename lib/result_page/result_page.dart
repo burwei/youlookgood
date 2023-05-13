@@ -11,7 +11,7 @@ class ResultPage extends StatefulWidget {
       {super.key, required this.imagePath, required this.drawnPoints});
 
   final String imagePath;
-  final List<Offset> drawnPoints;
+  final List<Offset?> drawnPoints;
 
   @override
   ResultPageState createState() => ResultPageState();
@@ -64,7 +64,8 @@ class ResultPageState extends State<ResultPage> {
             // display picture
             Container(
               alignment: Alignment.topCenter,
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               child: Image.file(File(widget.imagePath)),
             ),
             // target object mask
@@ -118,7 +119,7 @@ class ResultPageState extends State<ResultPage> {
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 150),
                 child: Text(
-                  '$percentageToBuy% of girls say\nyou sould buy it!',
+                  '$percentageToBuy% of girls say\nyou should buy it!',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -146,7 +147,7 @@ class ResultPageState extends State<ResultPage> {
                     Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   child: const Text(
-                    'back to home',
+                    'finish',
                     style: TextStyle(
                         fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
                   ),

@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 class DrawingBoard extends StatefulWidget {
   DrawingBoard({super.key});
 
-  final List<Offset> result = [];
+  final List<Offset?> result = [];
 
-  List<Offset> getResult() {
+  List<Offset?> getResult() {
     return result;
   }
 
@@ -18,23 +18,23 @@ class DrawingBoard extends StatefulWidget {
 }
 
 class DrawingBoardState extends State<DrawingBoard> {
-  final List<Offset> currentDrawingPath = [];
-  final List<List<Offset>> historyDrawingPaths = [];
+  final List<Offset?> currentPoints = [];
+  final _HistoryPointStack _historyStack = _HistoryPointStack();
   final Paint markingPaint = Paint()
     ..isAntiAlias = true
     ..color = Colors.pink.shade200
     ..strokeCap = StrokeCap.round
     ..strokeWidth = 25;
-  int cursor = 0;
+  int cursor = 0; // which path is the user drawing
 
   @override
   void initState() {
     super.initState();
 
     widget.result.clear();
-    currentDrawingPath.clear();
-    historyDrawingPaths.clear();
-    cursor = 0; // start from the first path
+    currentPoints.clear();
+    _historyStack.clear();
+    cursor = 0;
   }
 
   @override
@@ -42,18 +42,29 @@ class DrawingBoardState extends State<DrawingBoard> {
     return Stack(
       children: [
         // history paths
-        CustomPaint(
-          painter: DrawingPen([], historyDrawingPaths, markingPaint, cursor),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+        // p.s. Without RepaintBoundary the hisptory paths will repaint everytime
+        // even when we alrady set the shouldRepaint to false.
+        RepaintBoundary(
+          child: CustomPaint(
+            painter: DrawingPen(
+              false,
+              _historyStack.points,
+              markingPaint,
+              cursor,
+            ),
+            isComplex: true,
+            willChange: true,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            ),
           ),
         ),
         // current drawing path
         CustomPaint(
           painter: DrawingPen(
-            currentDrawingPath,
-            [],
+            true,
+            currentPoints,
             markingPaint,
             1,
           ),
@@ -67,32 +78,30 @@ class DrawingBoardState extends State<DrawingBoard> {
         GestureDetector(
           onPanStart: (details) {
             setState(() {
-              currentDrawingPath.add(details.localPosition);
+              currentPoints.add(details.localPosition);
             });
           },
           onPanUpdate: (details) {
             setState(() {
-              currentDrawingPath.add(details.localPosition);
+              currentPoints.add(details.localPosition);
             });
           },
           onPanEnd: (details) {
             setState(() {
               // Check if we need to clear the obsolete items.
-              if (cursor != historyDrawingPaths.length) {
-                int removeItemNum = historyDrawingPaths.length - cursor;
-                for (int i = 0; i < removeItemNum; i++) {
-                  historyDrawingPaths.removeAt(cursor);
-                }
+              if (cursor != _historyStack.size) {
+                _historyStack.popPaths(
+                  _historyStack.size - cursor,
+                );
               }
               // Add current drawing path to history drawing path and update variables.
-              historyDrawingPaths.add(List<Offset>.from(currentDrawingPath));
-              currentDrawingPath.clear();
+              currentPoints.add(null);
+              _historyStack.pushPath(List<Offset?>.from(currentPoints));
+              currentPoints.clear();
               cursor++;
               // Update widget result.
               widget.result.clear();
-              for (int i = 0; i < historyDrawingPaths.length; i++) {
-                widget.result.addAll(historyDrawingPaths[i]);
-              }
+              widget.result.addAll(_historyStack.points);
             });
           },
         ),
@@ -164,8 +173,8 @@ class DrawingBoardState extends State<DrawingBoard> {
                   setState(() {
                     cursor++;
 
-                    if (cursor > historyDrawingPaths.length) {
-                      cursor = historyDrawingPaths.length;
+                    if (cursor > _historyStack.size) {
+                      cursor = _historyStack.size;
                     }
                   });
                 },
@@ -183,11 +192,40 @@ class DrawingBoardState extends State<DrawingBoard> {
   }
 }
 
+class _HistoryPointStack {
+  int size = 0;
+  List<Offset?> points = [];
+  List<int> idxStartOfPath = [];
+
+  void clear() {
+    size = 0;
+    points.clear();
+    idxStartOfPath.clear();
+  }
+
+  void pushPath(List<Offset?> newPoints) {
+    points.addAll(newPoints);
+    idxStartOfPath.add(points.length - newPoints.length);
+    size++;
+  }
+
+  void popPaths(int numToPop) {
+    int target = size - numToPop;
+    points.removeRange(
+      idxStartOfPath[target],
+      points.length,
+    );
+    idxStartOfPath.removeRange(target, idxStartOfPath.length);
+    size = target;
+  }
+}
+
 class DrawingPen extends CustomPainter {
-  // Single path to draw. One path contains multiple points.
-  List<Offset> pointsToDraw;
-  // Multiple paths to draw.
-  List<List<Offset>> pathsToDraw;
+  // Type of the points: current or histroy.
+  final bool isCurrent;
+
+  // All points that will be drawn.
+  final List<Offset?> points;
 
   // The style of the paint.
   final Paint paintStyle;
@@ -197,41 +235,45 @@ class DrawingPen extends CustomPainter {
   int pathNum;
 
   DrawingPen(
-    this.pointsToDraw,
-    this.pathsToDraw,
+    this.isCurrent,
+    this.points,
     this.paintStyle,
     this.pathNum,
   );
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Concat all the points.
-    if (pointsToDraw.isNotEmpty) {
-      if (pointsToDraw.length % 2 == 1) {
-        pointsToDraw.add(pointsToDraw.last);
-      }
-    }
-    if (pathsToDraw.isNotEmpty) {
-      for (int i = 0; i < pathNum; i++) {
-        for (int j = 0; j < pathsToDraw[i].length; j++) {
-          pointsToDraw.add(pathsToDraw[i][j]);
-        }
-        if (pathsToDraw[i].length % 2 == 1) {
-          pointsToDraw.add(pointsToDraw.last);
-        }
-      }
-    }
+    print(
+      "isCurrent: $isCurrent,  points: ${points.length}, pathNum: $pathNum",
+    );
 
-    // Draw the lines bwtween each points in the same path.
-    for (int i = 0; i < pointsToDraw.length - 1; i += 2) {
-      canvas.drawLine(
-        pointsToDraw[i],
-        pointsToDraw[i + 1],
-        paintStyle,
-      );
+    int pathCounter = 0;
+
+    for (int i = 0; i < points.length - 1; i++) {
+      if (pathCounter == pathNum) {
+        break;
+      }
+
+      if (points[i] != null && points[i + 1] != null) {
+        canvas.drawLine(
+          points[i]!,
+          points[i + 1]!,
+          paintStyle,
+        );
+      }
+
+      if (points[i] == null) {
+        pathCounter++;
+      }
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(DrawingPen oldDelegate) {
+    if (isCurrent) {
+      return true;
+    } else {
+      return oldDelegate.pathNum != pathNum;
+    }
+  }
 }
