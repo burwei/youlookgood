@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // These widgets are modified from samirpokharel's Drawing_board_app.
 // source: https://github.com/samirpokharel/Drawing_board_app.
 // Nice job samirpokharel, thank you!
-// TODO: The drawing board becomes lagging after too much points. Fix it.
 class DrawingBoard extends StatefulWidget {
   DrawingBoard({super.key});
 
@@ -20,12 +19,14 @@ class DrawingBoard extends StatefulWidget {
 class DrawingBoardState extends State<DrawingBoard> {
   final List<Offset?> currentPoints = [];
   final _HistoryPointStack _historyStack = _HistoryPointStack();
+  final int batchRepaintNum = 8;
   final Paint markingPaint = Paint()
     ..isAntiAlias = true
     ..color = Colors.pink.shade200
     ..strokeCap = StrokeCap.round
     ..strokeWidth = 25;
   int cursor = 0; // which path is the user drawing
+  int batchCounter = 0;
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class DrawingBoardState extends State<DrawingBoard> {
     currentPoints.clear();
     _historyStack.clear();
     cursor = 0;
+    batchCounter = 0;
   }
 
   @override
@@ -83,9 +85,15 @@ class DrawingBoardState extends State<DrawingBoard> {
             });
           },
           onPanUpdate: (details) {
-            setState(() {
-              currentPoints.add(details.localPosition);
-            });
+            // Batch update improve the performance significantly.
+            if (batchCounter == batchRepaintNum) {
+              setState(() {
+                currentPoints.add(details.localPosition);
+                batchCounter = 0;
+              });
+            } else {
+              batchCounter++;
+            }
           },
           onPanEnd: (details) {
             setState(() {
@@ -244,6 +252,7 @@ class DrawingPen extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    print("pathNum: $pathNum, points: ${points.length}");
     int pathCounter = 0;
 
     for (int i = 0; i < points.length - 1; i++) {
