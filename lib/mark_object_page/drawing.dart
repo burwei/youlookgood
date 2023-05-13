@@ -244,10 +244,6 @@ class DrawingPen extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    print(
-      "isCurrent: $isCurrent,  points: ${points.length}, pathNum: $pathNum",
-    );
-
     int pathCounter = 0;
 
     for (int i = 0; i < points.length - 1; i++) {
