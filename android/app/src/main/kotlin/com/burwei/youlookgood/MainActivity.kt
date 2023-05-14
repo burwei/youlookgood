@@ -1,4 +1,4 @@
-package com.example.youlookgood
+package com.burwei.youlookgood
 
 import io.flutter.embedding.android.FlutterActivity
 
