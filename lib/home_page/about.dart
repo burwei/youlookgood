@@ -26,6 +26,11 @@ No data will be download.
 No internet needed.
 No data will be stored in your phone.
 ''';
+  final _titleOpenSource = "Open Source";
+  final _contentOpenSource = '''
+This is an open source project:
+github.com/burwei/youlookgood
+''';
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ No data will be stored in your phone.
       alignment: Alignment.center,
       padding: const EdgeInsets.all(0),
       width: 300,
-      height: 500,
+      height: 560,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -49,6 +54,7 @@ No data will be stored in your phone.
           AboutContent(title: _titleAbout, content: _contentAbout),
           AboutContent(title: _titleResult, content: _contentResult),
           AboutContent(title: _titleDataPrivacy, content: _contentDataPrivacy),
+          AboutContent(title: _titleOpenSource, content: _contentOpenSource),
           const SizedBox(
             height: 30,
           ),
