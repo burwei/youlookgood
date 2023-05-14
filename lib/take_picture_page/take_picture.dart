@@ -20,8 +20,9 @@ class TakePicturePage extends StatefulWidget {
 class TakePicturePageState extends State<TakePicturePage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  IconData _captureBtnIcon = Icons.camera_alt;
 
-  final instructionText =
+  final _instructionText =
       'Take a picture of your girl with the item she wants to buy.';
 
   @override
@@ -35,6 +36,8 @@ class TakePicturePageState extends State<TakePicturePage> {
     );
 
     _initializeControllerFuture = _controller.initialize();
+
+    _captureBtnIcon = Icons.camera_alt;
   }
 
   @override
@@ -88,6 +91,9 @@ class TakePicturePageState extends State<TakePicturePage> {
                 height: 80,
                 child: FloatingActionButton(
                   onPressed: () async {
+                    setState(() {
+                      _captureBtnIcon = Icons.camera_alt_outlined;
+                    });
                     try {
                       // Ensure that the camera is initialized.
                       await _initializeControllerFuture;
@@ -117,8 +123,8 @@ class TakePicturePageState extends State<TakePicturePage> {
                     }
                   },
                   backgroundColor: Colors.white,
-                  child: const Icon(
-                    Icons.camera_alt,
+                  child: Icon(
+                    _captureBtnIcon,
                     color: Colors.pink,
                     size: 50,
                   ),
@@ -130,7 +136,7 @@ class TakePicturePageState extends State<TakePicturePage> {
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Text(
-                instructionText,
+                _instructionText,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,

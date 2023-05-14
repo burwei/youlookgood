@@ -18,10 +18,10 @@ class ResultPage extends StatefulWidget {
 }
 
 class ResultPageState extends State<ResultPage> {
-  bool isDone = false;
-  double progress = 0.0;
-  int percentageToBuy = 0;
-  Image? image;
+  bool _isDone = false;
+  double _progress = 0.0;
+  int _percentageToBuy = 0;
+  Image? _image;
 
   final youLookGoodText = "You look GOOD!";
 
@@ -33,32 +33,32 @@ class ResultPageState extends State<ResultPage> {
     // naviage naviage to home page.
     try {
       Image tmpImage = Image.file(File(widget.imagePath));
-      image = tmpImage;
+      _image = tmpImage;
     } catch (e) {
-      if (image == null) {
+      if (_image == null) {
         Navigator.popUntil(context, (route) => route.isFirst);
       }
     }
 
     // Start the fake progress loading.
-    isDone = false;
-    progress = 0;
+    _isDone = false;
+    _progress = 0;
     var random = Random();
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      if (progress >= 1.0) {
+      if (_progress >= 1.0) {
         timer.cancel();
         if (mounted) {
           setState(() {
-            progress = 1.0;
-            isDone = true;
-            percentageToBuy = 50 + random.nextInt(50);
+            _progress = 1.0;
+            _isDone = true;
+            _percentageToBuy = 50 + random.nextInt(50);
           });
         }
       }
       if (mounted) {
         setState(() {
-          if (progress < 1.0) {
-            progress += 0.01 * random.nextInt(5);
+          if (_progress < 1.0) {
+            _progress += 0.01 * random.nextInt(5);
           }
         });
       }
@@ -92,7 +92,7 @@ class ResultPageState extends State<ResultPage> {
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: image,
+              child: _image,
             ),
             // target object mask
             CustomPaint(
@@ -104,7 +104,7 @@ class ResultPageState extends State<ResultPage> {
               ),
             ),
             // full screen mask and the fake process circle
-            if (!isDone)
+            if (!_isDone)
               Container(
                 alignment: Alignment.center,
                 constraints: const BoxConstraints.expand(),
@@ -113,9 +113,9 @@ class ResultPageState extends State<ResultPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(value: progress),
+                    CircularProgressIndicator(value: _progress),
                     Text(
-                      'analyzing: ${(progress * 100).round()}%',
+                      'analyzing: ${(_progress * 100).round()}%',
                       style: const TextStyle(
                         fontSize: 15,
                         fontFamily: 'Ubuntu',
@@ -126,7 +126,7 @@ class ResultPageState extends State<ResultPage> {
                 ),
               ),
             // you look good text
-            if (isDone)
+            if (_isDone)
               Container(
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 220),
@@ -140,12 +140,12 @@ class ResultPageState extends State<ResultPage> {
                 ),
               ),
             // percentage to buy text
-            if (isDone)
+            if (_isDone)
               Container(
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 160),
                 child: Text(
-                  '$percentageToBuy% of girls say\nyou should buy it!',
+                  '$_percentageToBuy% of girls say\nyou should buy it!',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
@@ -163,7 +163,7 @@ class ResultPageState extends State<ResultPage> {
               ),
             ),
             // back to home button
-            if (isDone)
+            if (_isDone)
               Container(
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 70),

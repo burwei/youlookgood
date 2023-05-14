@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 
 class MyAboutDialog extends StatelessWidget {
-  const MyAboutDialog({super.key, required this.btnCallback});
+  const MyAboutDialog({super.key, required Function btnCallback})
+      : _btnCallback = btnCallback;
 
-  final Function btnCallback;
-  final titleAbout = 'About';
-  final contentAbout = '''
+  final Function _btnCallback;
+  final _titleAbout = 'About';
+  final _contentAbout = '''
 Shopping with girlfriend/wife is just so boring.
 Hope this app will bring some fun to you.
 ''';
 
-  final titleResult = 'The reulst';
-  final contentResult = '''
+  final _titleResult = 'The reulst';
+  final _contentResult = '''
 This is NOT a real fashion rating app.
 Result is always "You look GOOD".
 Score is just a random number: 50~100%.
 Analyzing time is also random: 2~10 sec.
 ''';
 
-  final titleDataPrivacy = 'Data Privacy';
-  final contentDataPrivacy = '''
+  final _titleDataPrivacy = 'Data Privacy';
+  final _contentDataPrivacy = '''
 No data will be upload.
 No data will be download.
 No internet needed.
@@ -45,9 +46,9 @@ No data will be stored in your phone.
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AboutContent(title: titleAbout, content: contentAbout),
-          AboutContent(title: titleResult, content: contentResult),
-          AboutContent(title: titleDataPrivacy, content: contentDataPrivacy),
+          AboutContent(title: _titleAbout, content: _contentAbout),
+          AboutContent(title: _titleResult, content: _contentResult),
+          AboutContent(title: _titleDataPrivacy, content: _contentDataPrivacy),
           const SizedBox(
             height: 30,
           ),
@@ -67,7 +68,7 @@ No data will be stored in your phone.
                 ),
               ),
               onPressed: () {
-                btnCallback();
+                _btnCallback();
               },
               child: const Text(
                 'close',

@@ -16,12 +16,12 @@ class MarkObjectPage extends StatefulWidget {
 class MarkObjectPageState extends State<MarkObjectPage> {
   final instructionText =
       'Paint the item she wants to buy to make it look brighter later.';
-  List<Offset?> points = [];
-  Image? image;
+  List<Offset?> _points = [];
+  Image? _image;
 
   void getPointsCallback(List<Offset?> points) {
     setState(() {
-      this.points = points;
+      _points = points;
     });
   }
 
@@ -33,9 +33,9 @@ class MarkObjectPageState extends State<MarkObjectPage> {
     // naviage to last page to take a new picture.
     try {
       Image tmpImage = Image.file(File(widget.imagePath));
-      image = tmpImage;
+      _image = tmpImage;
     } catch (e) {
-      if (image == null) {
+      if (_image == null) {
         Navigator.pop(context);
       }
     }
@@ -55,7 +55,7 @@ class MarkObjectPageState extends State<MarkObjectPage> {
             Container(
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: image,
+              child: _image,
             ),
             // drawing board
             DrawingBoard(callback: getPointsCallback),
@@ -69,7 +69,7 @@ class MarkObjectPageState extends State<MarkObjectPage> {
               ),
             ),
             // submit button
-            if (points.isNotEmpty)
+            if (_points.isNotEmpty)
               Container(
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 70),
@@ -90,7 +90,7 @@ class MarkObjectPageState extends State<MarkObjectPage> {
                       MaterialPageRoute(
                         builder: (context) => ResultPage(
                           imagePath: widget.imagePath,
-                          drawnPoints: points,
+                          drawnPoints: _points,
                         ),
                       ),
                     );

@@ -13,16 +13,16 @@ class DrawingBoard extends StatefulWidget {
 }
 
 class DrawingBoardState extends State<DrawingBoard> {
-  final List<Offset?> currentPoints = [];
+  final List<Offset?> _currentPoints = [];
   final _HistoryPointStack _historyStack = _HistoryPointStack();
-  final int batchRepaintNum = 8;
-  final Paint markingPaint = Paint()
+  final int _samplingNum = 8;
+  final Paint _markingPaint = Paint()
     ..isAntiAlias = true
     ..color = Colors.pink.shade200
     ..strokeCap = StrokeCap.round
     ..strokeWidth = 25;
-  int cursor = 0; // which path is the user drawing
-  int batchCounter = 0;
+  int _cursor = 0; // which path is the user drawing
+  int _samplingCounter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,8 @@ class DrawingBoardState extends State<DrawingBoard> {
             painter: DrawingPen(
               false,
               _historyStack.points,
-              markingPaint,
-              cursor,
+              _markingPaint,
+              _cursor,
             ),
             isComplex: true,
             willChange: false,
@@ -52,8 +52,8 @@ class DrawingBoardState extends State<DrawingBoard> {
         CustomPaint(
           painter: DrawingPen(
             true,
-            currentPoints,
-            markingPaint,
+            _currentPoints,
+            _markingPaint,
             1,
           ),
           child: SizedBox(
@@ -66,33 +66,33 @@ class DrawingBoardState extends State<DrawingBoard> {
         GestureDetector(
           onPanStart: (details) {
             setState(() {
-              currentPoints.add(details.localPosition);
+              _currentPoints.add(details.localPosition);
             });
           },
           onPanUpdate: (details) {
             // Batch update improve the performance significantly.
-            if (batchCounter == batchRepaintNum) {
+            if (_samplingCounter == _samplingNum) {
               setState(() {
-                currentPoints.add(details.localPosition);
-                batchCounter = 0;
+                _currentPoints.add(details.localPosition);
+                _samplingCounter = 0;
               });
             } else {
-              batchCounter++;
+              _samplingCounter++;
             }
           },
           onPanEnd: (details) {
             setState(() {
               // Check if we need to clear the obsolete items.
-              if (cursor != _historyStack.size) {
+              if (_cursor != _historyStack.size) {
                 _historyStack.popPaths(
-                  _historyStack.size - cursor,
+                  _historyStack.size - _cursor,
                 );
               }
               // Add current drawing path to history drawing path and update variables.
-              currentPoints.add(null);
-              _historyStack.pushPath(List<Offset?>.from(currentPoints));
-              currentPoints.clear();
-              cursor++;
+              _currentPoints.add(null);
+              _historyStack.pushPath(List<Offset?>.from(_currentPoints));
+              _currentPoints.clear();
+              _cursor++;
               // Update widget result.
               widget.callback(_historyStack.points);
             });
@@ -137,13 +137,13 @@ class DrawingBoardState extends State<DrawingBoard> {
               child: IconButton(
                 onPressed: () {
                   setState(() {
-                    cursor--;
+                    _cursor--;
 
-                    if (cursor < 0) {
-                      cursor = 0;
+                    if (_cursor < 0) {
+                      _cursor = 0;
                     }
 
-                    widget.callback(_historyStack.getCurrentResult(cursor));
+                    widget.callback(_historyStack.getCurrentResult(_cursor));
                   });
                 },
                 icon: const Icon(
@@ -166,13 +166,13 @@ class DrawingBoardState extends State<DrawingBoard> {
               child: IconButton(
                 onPressed: () {
                   setState(() {
-                    cursor++;
+                    _cursor++;
 
-                    if (cursor > _historyStack.size) {
-                      cursor = _historyStack.size;
+                    if (_cursor > _historyStack.size) {
+                      _cursor = _historyStack.size;
                     }
 
-                    widget.callback(_historyStack.getCurrentResult(cursor));
+                    widget.callback(_historyStack.getCurrentResult(_cursor));
                   });
                 },
                 icon: const Icon(

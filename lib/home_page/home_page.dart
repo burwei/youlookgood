@@ -14,9 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  final titleText = 'Let\'s answer the question:\n\n"How do I look?"';
-  final databaseConnText =
-      'Not connected to any database. No internet needed.\nWe know the answer already.\nWe always do.';
+  final _titleText = 'Let\'s answer the question:\n\n"How do I look?"';
   bool _showAboutDialog = false;
 
   void aboutDiagramBtnCallback() {
@@ -41,7 +39,7 @@ class HomePageState extends State<HomePage> {
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Text(
-                titleText,
+                _titleText,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,

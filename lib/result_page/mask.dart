@@ -19,11 +19,11 @@ class Mask extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // save original status
+    // Save original status.
     canvas.saveLayer(Rect.largest, Paint());
-    // draw background mask
+    // Draw background mask.
     canvas.drawPaint(maskPaint);
-    // draw the current path (erase some part of the mask)
+    // Draw the current path (erase some part of the mask).
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
         canvas.drawLine(
@@ -33,7 +33,7 @@ class Mask extends CustomPainter {
         );
       }
     }
-    // show the result
+    // Show the result.
     canvas.restore();
   }
 

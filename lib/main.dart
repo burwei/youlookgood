@@ -21,9 +21,10 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.camera});
+  const MyApp({super.key, required CameraDescription camera})
+      : _camera = camera;
 
-  final CameraDescription camera;
+  final CameraDescription _camera;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       home: HomePage(
-        camera: camera,
+        camera: _camera,
       ),
     );
   }
