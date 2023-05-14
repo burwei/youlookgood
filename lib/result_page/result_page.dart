@@ -21,6 +21,7 @@ class ResultPageState extends State<ResultPage> {
   bool isDone = false;
   double progress = 0.0;
   int percentageToBuy = 0;
+  Image? image;
 
   final youLookGoodText = "You look GOOD!";
 
@@ -28,26 +29,51 @@ class ResultPageState extends State<ResultPage> {
   void initState() {
     super.initState();
 
+    // If failed to load image and no previous image is stored,
+    // naviage naviage to home page.
+    try {
+      Image tmpImage = Image.file(File(widget.imagePath));
+      image = tmpImage;
+    } catch (e) {
+      if (image == null) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+      }
+    }
+
+    // Start the fake progress loading.
     isDone = false;
     progress = 0;
     var random = Random();
-
-    // start the fake progress loading
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
       if (progress >= 1.0) {
         timer.cancel();
+        if (mounted) {
+          setState(() {
+            progress = 1.0;
+            isDone = true;
+            percentageToBuy = 50 + random.nextInt(50);
+          });
+        }
+      }
+      if (mounted) {
         setState(() {
-          progress = 1.0;
-          isDone = true;
-          percentageToBuy = 50 + random.nextInt(50);
+          if (progress < 1.0) {
+            progress += 0.01 * random.nextInt(5);
+          }
         });
       }
+    });
+  }
 
-      setState(() {
-        if (progress < 1.0) {
-          progress += 0.01 * random.nextInt(5);
-        }
-      });
+  @override
+  void dispose() {
+    super.dispose();
+    // Remove the image file from cache folder.
+    var imgFile = File(widget.imagePath);
+    imgFile.exists().then((isExist) {
+      if (isExist) {
+        imgFile.delete();
+      }
     });
   }
 
@@ -66,7 +92,7 @@ class ResultPageState extends State<ResultPage> {
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.file(File(widget.imagePath)),
+              child: image,
             ),
             // target object mask
             CustomPaint(

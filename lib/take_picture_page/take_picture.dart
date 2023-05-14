@@ -21,7 +21,8 @@ class TakePicturePageState extends State<TakePicturePage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  final instructionText = 'Take a picture of your girl with the target object.';
+  final instructionText =
+      'Take a picture of your girl with the item she wants to buy.';
 
   @override
   void initState() {

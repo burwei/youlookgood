@@ -15,13 +15,30 @@ class MarkObjectPage extends StatefulWidget {
 
 class MarkObjectPageState extends State<MarkObjectPage> {
   final instructionText =
-      'Mark the target item by painting to make it looks brighter later.';
+      'Paint the item she wants to buy to make it look brighter later.';
   List<Offset?> points = [];
+  Image? image;
 
   void getPointsCallback(List<Offset?> points) {
     setState(() {
       this.points = points;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // If failed to load image and no previous image is stored,
+    // naviage to last page to take a new picture.
+    try {
+      Image tmpImage = Image.file(File(widget.imagePath));
+      image = tmpImage;
+    } catch (e) {
+      if (image == null) {
+        Navigator.pop(context);
+      }
+    }
   }
 
   @override
@@ -38,7 +55,7 @@ class MarkObjectPageState extends State<MarkObjectPage> {
             Container(
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Image.file(File(widget.imagePath)),
+              child: image,
             ),
             // drawing board
             DrawingBoard(callback: getPointsCallback),
