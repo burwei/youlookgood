@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:youlookgood/mark_object_page/mark_object_page.dart';
 
 // This page is modify from offical tutorial:
@@ -21,9 +22,6 @@ class TakePicturePageState extends State<TakePicturePage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   IconData _captureBtnIcon = Icons.camera_alt;
-
-  final _instructionText =
-      'Take a picture of your girl with the item she wants to buy.';
 
   @override
   void initState() {
@@ -136,7 +134,7 @@ class TakePicturePageState extends State<TakePicturePage> {
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Text(
-                _instructionText,
+                AppLocalizations.of(context)!.takePicInstruction,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,

@@ -1,36 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class MyAboutDialog extends StatelessWidget {
   const MyAboutDialog({super.key, required Function btnCallback})
       : _btnCallback = btnCallback;
 
   final Function _btnCallback;
-  final _titleAbout = 'About';
-  final _contentAbout = '''
-Shopping with girlfriend/wife is just so boring.
-Hope this app will bring some fun to you.
-''';
-
-  final _titleResult = 'The reulst';
-  final _contentResult = '''
-This is NOT a real fashion rating app.
-Result is always "You look GOOD".
-Score is just a random number: 50~100%.
-Analyzing time is also random: 2~10 sec.
-''';
-
-  final _titleDataPrivacy = 'Data Privacy';
-  final _contentDataPrivacy = '''
-No data will be upload.
-No data will be download.
-No internet needed.
-No data will be stored in your phone.
-''';
-  final _titleOpenSource = "Open Source";
-  final _contentOpenSource = '''
-This is an open source project:
-github.com/burwei/youlookgood
-''';
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +27,18 @@ github.com/burwei/youlookgood
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AboutContent(title: _titleAbout, content: _contentAbout),
-          AboutContent(title: _titleResult, content: _contentResult),
-          AboutContent(title: _titleDataPrivacy, content: _contentDataPrivacy),
-          AboutContent(title: _titleOpenSource, content: _contentOpenSource),
+          AboutContent(
+              title: AppLocalizations.of(context)!.aboutSectionTitle,
+              content: AppLocalizations.of(context)!.aboutSectionContent),
+          AboutContent(
+              title: AppLocalizations.of(context)!.resultSectionTitle,
+              content: AppLocalizations.of(context)!.resultSectionContent),
+          AboutContent(
+              title: AppLocalizations.of(context)!.dataPrivacySectionTitle,
+              content: AppLocalizations.of(context)!.dataPrivacySectionContent),
+          AboutContent(
+              title: AppLocalizations.of(context)!.openSourceSectionTitle,
+              content: AppLocalizations.of(context)!.openSourceSectionContent),
           const SizedBox(
             height: 30,
           ),
@@ -76,9 +60,9 @@ github.com/burwei/youlookgood
               onPressed: () {
                 _btnCallback();
               },
-              child: const Text(
-                'close',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.dismiss,
+                style: const TextStyle(
                     fontSize: 20, color: Colors.white, fontFamily: 'Ubuntu'),
               ),
             ),

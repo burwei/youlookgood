@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'mask.dart';
 
@@ -22,8 +23,6 @@ class ResultPageState extends State<ResultPage> {
   double _progress = 0.0;
   int _percentageToBuy = 0;
   Image? _image;
-
-  final youLookGoodText = "You look GOOD!";
 
   @override
   void initState() {
@@ -115,7 +114,7 @@ class ResultPageState extends State<ResultPage> {
                   children: [
                     CircularProgressIndicator(value: _progress),
                     Text(
-                      'analyzing: ${(_progress * 100).round()}%',
+                      '${AppLocalizations.of(context)!.analyzing}${(_progress * 100).round()}%',
                       style: const TextStyle(
                         fontSize: 15,
                         fontFamily: 'Ubuntu',
@@ -131,7 +130,7 @@ class ResultPageState extends State<ResultPage> {
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 220),
                 child: Text(
-                  youLookGoodText,
+                  AppLocalizations.of(context)!.youLookGood,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 30,
@@ -145,7 +144,7 @@ class ResultPageState extends State<ResultPage> {
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 160),
                 child: Text(
-                  '$_percentageToBuy% of girls say\nyou should buy it!',
+                  '$_percentageToBuy%${AppLocalizations.of(context)!.girlSays}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
@@ -181,9 +180,9 @@ class ResultPageState extends State<ResultPage> {
                   onPressed: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
                   },
-                  child: const Text(
-                    'finish',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.finish,
+                    style: const TextStyle(
                         fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
                   ),
                 ),

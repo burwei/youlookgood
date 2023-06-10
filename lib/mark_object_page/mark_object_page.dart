@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:youlookgood/mark_object_page/drawing.dart';
 import 'package:youlookgood/result_page/result_page.dart';
 
@@ -14,8 +15,6 @@ class MarkObjectPage extends StatefulWidget {
 }
 
 class MarkObjectPageState extends State<MarkObjectPage> {
-  final instructionText =
-      'Paint the item she wants to buy to make it look brighter later.';
   List<Offset?> _points = [];
   Image? _image;
 
@@ -95,9 +94,9 @@ class MarkObjectPageState extends State<MarkObjectPage> {
                       ),
                     );
                   },
-                  child: const Text(
-                    'submit',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.submit,
+                    style: const TextStyle(
                         fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
                   ),
                 ),
@@ -107,7 +106,7 @@ class MarkObjectPageState extends State<MarkObjectPage> {
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Text(
-                instructionText,
+                AppLocalizations.of(context)!.makeItemInstruction,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,

@@ -1,0 +1,21 @@
+{
+    "openingSentence":"讓我們來回答逛街時\n女友/老婆必問的經典題:\n\n\"我看起來怎樣?\"",
+    "start":"開始",
+    "about":"關於",
+    "dismiss":"返回",
+    "aboutSectionTitle":"關於",
+    "aboutSectionContent":"跟女友/老婆逛街真的是太無聊了，希望這個app能帶給你一點樂子",
+    "resultSectionTitle":"分析結果",
+    "resultSectionContent":"這不是一個真正的時尚分析app\n結果永遠會是\"你看起來很不錯!\"\n分數是一個從50%~100%的亂數\n分析時間是隨機2~10秒",
+    "dataPrivacySectionTitle":"資料與隱私",
+    "dataPrivacySectionContent":"沒有資料會被上傳\n不會下載任何資料\n不需要連上網路\n不會儲存任何資料在手機裡",
+    "openSourceSectionTitle":"開源專案",
+    "openSourceSectionContent":"這是一個開源專案:\ngithub.com/burwei/youlookgood",
+    "takePicInstruction":"拍張照吧，記得把她跟她在挑的品項一起拍進來",
+    "makeItemInstruction":"把她想買的品項用畫筆塗選起來，讓它待會看起來亮一些",
+    "submit":"進行分析",
+    "analyzing":"分析中: ",
+    "youLookGood":"你看起來很不錯!",
+    "girlSays":" 的女生覺得可以買",
+    "finish":"完成"
+}

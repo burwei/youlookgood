@@ -1,0 +1,82 @@
+{
+  "openingSentence": "Let's answer the question\nyour girl always asks\nduring the shopping:\n\n\"How do I look?\"",
+  "@openingSentence": {
+    "description": "Opening sentence in home page."
+  },
+  "start": "Start",
+  "@start": {
+    "description": "Text of the start button in home page."
+  },
+  "about": "About",
+  "@about": {
+    "description": "Text of the about button in home page."
+  },
+  "aboutSectionTitle": "About",
+  "@aboutSectionTitle": {
+    "description": "Title of the about section in about dialog"
+  },
+  "dismiss": "Dismiss",
+  "@dismiss": {
+    "description": "Text of the close button in about dialog."
+  },
+  "aboutSectionTitle": "About",
+  "@aboutSectionTitle": {
+    "description": "Title of the about section in about dialog"
+  },
+  "aboutSectionContent": "Shopping with girlfriend/wife is just so boring.\nHope this app will bring some fun to you.",
+  "@aboutSectionContent": {
+    "description": "Content of the about section in about dialog"
+  },
+  "resultSectionTitle": "The Result",
+  "@resultSectionTitle": {
+    "description": "Title of the result section in about dialog"
+  },
+  "resultSectionContent": "This is NOT a real fashion rating app.\nResult is always \"You look GOOD\".\nScore is just a random number: 50~100%.\nAnalyzing time is also random: 2~10 sec.",
+  "@resultSectionContent": {
+    "description": "Content of the result section in about dialog"
+  },
+  "dataPrivacySectionTitle": "Data Privacy",
+  "@dataPrivacySectionTitle": {
+    "description": "Title of the data privacy section in about dialog"
+  },
+  "dataPrivacySectionContent": "No data will be upload.\nNo data will be download.\nNo internet needed.\nNo data will be stored in your phone.",
+  "@dataPrivacySectionContent": {
+    "description": "Content of the data privacy section in about dialog"
+  },
+  "openSourceSectionTitle": "Open Source",
+  "@openSourceSectionTitle": {
+    "description": "Title of the open source section in about dialog"
+  },
+  "openSourceSectionContent": "This is an open source project:\ngithub.com/burwei/youlookgood",
+  "@openSourceSectionContent": {
+    "description": "Content of the open source section in about dialog"
+  },
+  "takePicInstruction": "Take a picture of your girl with the item she wants to buy.",
+  "@takePicInstruction": {
+    "description": "The instruction that tells user how to take a picture."
+  },
+  "makeItemInstruction": "Paint the item she wants to buy to make it look brighter later.",
+  "@makeItemInstruction": {
+    "description": "The instruction that tells user how to mark the item."
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "The submit button in mark object page."
+  },
+  "analyzing":"analyzing: ",
+  "@analyzing": {
+    "description": "The fake \"analyzing: \" text in result page."
+  },
+  "youLookGood":"You look GOOD!",
+  "@youLookGood": {
+    "description": "The \"You look GOOD\" result text."
+  },
+  "girlSays":" of girls say\nyou should buy it!",
+  "@youLookGood": {
+    "description": "The \"XX% of girls say you should buy it\" result text."
+  },
+  "finish":"Finish",
+  "@finish": {
+    "description": "Text of the finish button in result page."
+  } 
+}

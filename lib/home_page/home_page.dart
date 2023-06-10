@@ -1,7 +1,10 @@
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 
-import '../take_picture_page/take_picture.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:youlookgood/take_picture_page/take_picture.dart';
+
 import 'about.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  final _titleText = 'Let\'s answer the question:\n\n"How do I look?"';
   bool _showAboutDialog = false;
 
   void aboutDiagramBtnCallback() {
@@ -39,7 +41,7 @@ class HomePageState extends State<HomePage> {
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Text(
-                _titleText,
+                AppLocalizations.of(context)!.openingSentence,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -71,9 +73,9 @@ class HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: const Text(
-                  'start',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.start,
+                  style: const TextStyle(
                       fontSize: 20, color: Colors.pink, fontFamily: 'Ubuntu'),
                 ),
               ),
@@ -88,7 +90,7 @@ class HomePageState extends State<HomePage> {
                   });
                 },
                 child: Text(
-                  "about",
+                  AppLocalizations.of(context)!.about,
                   style: TextStyle(
                     fontFamily: "Ubuntu",
                     fontSize: 15,
