@@ -15,7 +15,7 @@ class DrawingBoard extends StatefulWidget {
 class DrawingBoardState extends State<DrawingBoard> {
   final List<Offset?> _currentPoints = [];
   final _HistoryPointStack _historyStack = _HistoryPointStack();
-  final int _samplingNum = 8;
+  final int _samplingNum = 5;
   final Paint _markingPaint = Paint()
     ..isAntiAlias = true
     ..color = Colors.pink.shade200
@@ -254,7 +254,6 @@ class DrawingPen extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    print("pathNum: $pathNum, points: ${points.length}");
     int pathCounter = 0;
 
     for (int i = 0; i < points.length - 1; i++) {
