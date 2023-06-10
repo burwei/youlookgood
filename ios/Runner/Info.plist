@@ -27,9 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>camera permission is needed</string>
+	<string>The photo captured by this app will only be used to create the result image and won't be store/upload to anywhere.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>microphone is not used but needed by camera package</string>
+	<string>The microphone permission is only needed when it's essential for getting camera's permission. No audio is recorded in this app.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
