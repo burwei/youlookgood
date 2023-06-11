@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Burwei on 2023/6/11.
+  
+*/
+
+NSCameraUsageDescription="The photo captured by this app will only be used to create the result image and won't be stored/uploaded to anywhere";
+NSMicrophoneUsageDescription="The microphone permission is only needed when it's essential for getting camera's permission. No audio is recorded in this app.";

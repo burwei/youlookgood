@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Burwei on 2023/6/11.
+  
+*/
+
+NSCameraUsageDescription="相機拍攝之照片將用於產出結果影像，且不會儲存/上傳至任何地方";
+NSMicrophoneUsageDescription="麥克風權限只有在獲取相機權限有需要時才會用到，本軟體不會錄製任何音檔";
