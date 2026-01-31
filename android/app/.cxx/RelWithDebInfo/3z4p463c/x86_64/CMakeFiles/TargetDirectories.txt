@@ -1,0 +1,2 @@
+/Users/ericchiu/Documents/github/youlookgood/youlookgood/android/app/.cxx/RelWithDebInfo/3z4p463c/x86_64/CMakeFiles/edit_cache.dir
+/Users/ericchiu/Documents/github/youlookgood/youlookgood/android/app/.cxx/RelWithDebInfo/3z4p463c/x86_64/CMakeFiles/rebuild_cache.dir
